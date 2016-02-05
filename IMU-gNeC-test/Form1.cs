@@ -15,7 +15,6 @@ namespace IMU_gNeC_test
         #region attributes
 
             IMUClass myIMU = new IMUClass();
-            int step = 0;
 
         #endregion
 
@@ -29,6 +28,7 @@ namespace IMU_gNeC_test
                 myIMU.imuOR.ImuOR += new ImuOREventHandler(ImuORreceived);
                 myIMU.imuPerm.ImuPerm += new ImuPermEventHandler(ImuPermReceived);
                 myIMU.imuROM.ImuROM += new ImuROMEventHandler(ImuRomOKReceived);
+                myIMU.imuReady.ImuRea += new ImuReadyEventHandler(ImuReadyReceived);
 
                 InitializeComponent();
             }
@@ -37,30 +37,25 @@ namespace IMU_gNeC_test
             private void buttonConnect_Click(object sender, EventArgs e)
             {
                 bool connection1, connection2;
-                if (step == 0)
-                {
-                    try
-                    {
-                        myIMU.initializeSerialPort();
-                        step++;
-                    }
-                    catch (Exception exc) { };
-                }
-                if (step == 1)
-                {
-                    connection1 = myIMU.connectIMUkownCOM("COM118", 1);
-                    if (!connection1)
-                        step++;
-                    else
-                        myIMU.startReadingIMU();
 
-                }
-                if (step == 2)
+                //try
+                //{
+                //    myIMU.initializeSerialPort();
+                //}
+                //catch (Exception exc) { return; };
+
+                connection1 = myIMU.connectIMUkownCOM("COM37", 1);
+
+                if (!connection1)
                 {
                     connection2 = myIMU.connectIMUunkownCOM(1);
                     if (connection2)
                         myIMU.startReadingIMU();
+                    else
+                        MessageBox.Show("Port not opened");
                 }
+                else
+                    myIMU.startReadingIMU();
             }
 
             private void buttonDisconnect_Click(object sender, EventArgs e)
@@ -151,6 +146,10 @@ namespace IMU_gNeC_test
                 }
             }
 
+            public void ImuReadyReceived(object sender, ImuReadyEventArgs e)
+            {
+
+            }
             
             delegate void WriteLabelDelegate(Label label, string text);
             private void WriteLabel(Label label, string text)
