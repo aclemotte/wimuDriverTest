@@ -36,7 +36,7 @@ namespace IMU_gNeC_test
             
             private void buttonConnect_Click(object sender, EventArgs e)
             {
-                bool connection1, connection2;
+                //bool connection1;//, connection2;
 
                 //try
                 //{
@@ -44,18 +44,21 @@ namespace IMU_gNeC_test
                 //}
                 //catch (Exception exc) { return; };
 
-                connection1 = myIMU.connectIMUkownCOM("COM37", 1);
+                //connection1 = myIMU.connectIMUkownCOM("COM37", 1);
 
-                if (!connection1)
-                {
-                    connection2 = myIMU.connectIMUunkownCOM(1);
-                    if (connection2)
-                        myIMU.startReadingIMU();
-                    else
-                        MessageBox.Show("Port not opened");
-                }
-                else
-                    myIMU.startReadingIMU();
+                //if (!connection1)
+                //{
+                    //connection2 = myIMU.connectIMUunkownCOM(1);
+                    //if (connection2)
+                    //    myIMU.startReadingIMU();
+                    //else
+                        //MessageBox.Show("Port not opened");
+                //}
+                //else
+
+
+                if (!myIMU.startReadingIMU("COM37", 1))
+                    MessageBox.Show("Port not opened");
             }
 
             private void buttonDisconnect_Click(object sender, EventArgs e)
