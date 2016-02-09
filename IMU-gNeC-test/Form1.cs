@@ -22,8 +22,6 @@ namespace IMU_gNeC_test
 
             public Form1()
             {
-                //myIMU.initializeThreadIMU();
-
                 myIMU.IMUAng.ImuYPR += new IMUEventHandler(ImuYPRreceived);
                 myIMU.imuOR.ImuOR += new ImuOREventHandler(ImuORreceived);
                 myIMU.imuPerm.ImuPerm += new ImuPermEventHandler(ImuPermReceived);
@@ -36,27 +34,6 @@ namespace IMU_gNeC_test
             
             private void buttonConnect_Click(object sender, EventArgs e)
             {
-                //bool connection1;//, connection2;
-
-                //try
-                //{
-                //    myIMU.initializeSerialPort();
-                //}
-                //catch (Exception exc) { return; };
-
-                //connection1 = myIMU.connectIMUkownCOM("COM37", 1);
-
-                //if (!connection1)
-                //{
-                    //connection2 = myIMU.connectIMUunkownCOM(1);
-                    //if (connection2)
-                    //    myIMU.startReadingIMU();
-                    //else
-                        //MessageBox.Show("Port not opened");
-                //}
-                //else
-
-
                 if (!myIMU.startReadingIMU("COM37", 1))
                     MessageBox.Show("Port not opened");
             }
@@ -111,6 +88,22 @@ namespace IMU_gNeC_test
                 myIMU.ImuInitgame.SendInitEndGame();
             }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
             public void ImuYPRreceived(object sender, IMUEventArgs e)
             {
@@ -153,6 +146,19 @@ namespace IMU_gNeC_test
             {
 
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
             
             delegate void WriteLabelDelegate(Label label, string text);
             private void WriteLabel(Label label, string text)
