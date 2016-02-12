@@ -15,6 +15,7 @@ namespace IMU_gNeC_test
         #region attributes
 
             IMUClass myIMU = new IMUClass();
+            System.Timers.Timer aTimer = new System.Timers.Timer();
 
         #endregion
 
@@ -28,14 +29,32 @@ namespace IMU_gNeC_test
                 myIMU.imuROM.ImuROM += new ImuROMEventHandler(ImuRomOKReceived);
                 myIMU.imuReady.ImuRea += new ImuReadyEventHandler(ImuReadyReceived);
 
+
+                aTimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
+                aTimer.Interval = 500;
+                //aTimer.Enabled = true;
+
+                
                 InitializeComponent();
             }
 
+
+            private void OnTimedEvent(object source, System.Timers.ElapsedEventArgs e)
+            {
+                //read imu data
+                Console.WriteLine("globalPitch: " + myIMU.globalPitch.ToString());
+            }
             
             private void buttonConnect_Click(object sender, EventArgs e)
             {
-                if (!myIMU.startReadingIMU("COM37", 1))
+                if (myIMU.startReadingIMU("COM45", 1))
+                {
+                    aTimer.Enabled = true;
+                }
+                else
+                {
                     MessageBox.Show("Port not opened");
+                }
             }
 
             private void buttonDisconnect_Click(object sender, EventArgs e)
@@ -107,13 +126,13 @@ namespace IMU_gNeC_test
             
             public void ImuYPRreceived(object sender, IMUEventArgs e)
             {
-                Console.WriteLine("Yaw " + Math.Floor(e.Yaw).ToString()
-                                 + ", Pitch " + Math.Floor(e.Pitch).ToString()
-                                 + ", Roll " + Math.Floor(e.Roll).ToString());
+                //Console.WriteLine("Yaw " + Math.Floor(e.Yaw).ToString()
+                //                 + ", Pitch " + Math.Floor(e.Pitch).ToString()
+                //                 + ", Roll " + Math.Floor(e.Roll).ToString());
 
-                WriteLabel(label1, Math.Floor(e.Yaw).ToString());
-                WriteLabel(label2, Math.Floor(e.Pitch).ToString());
-                WriteLabel(label3, Math.Floor(e.Roll).ToString());
+                //WriteLabel(label1, Math.Floor(e.Yaw).ToString());
+                //WriteLabel(label2, Math.Floor(e.Pitch).ToString());
+                //WriteLabel(label3, Math.Floor(e.Roll).ToString());
             }
 
             public void ImuORreceived(object sender, ImuOREventArgs e)
@@ -172,5 +191,6 @@ namespace IMU_gNeC_test
             }
         
         #endregion    
+    
     }
 }
